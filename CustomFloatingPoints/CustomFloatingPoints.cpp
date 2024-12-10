@@ -6,7 +6,7 @@
 
 int main()
 {
-    FloatingPoint point = FloatingPoint(8.00);
+    FloatingPoint point = FloatingPoint(8.5);
     std::cout << "Hello World!\n";
 }
 
