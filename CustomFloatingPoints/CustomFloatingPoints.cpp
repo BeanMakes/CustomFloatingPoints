@@ -2,9 +2,11 @@
 //
 
 #include <iostream>
+#include "FloatingPoint.h"
 
 int main()
 {
+    FloatingPoint point = FloatingPoint(8.00);
     std::cout << "Hello World!\n";
 }
 

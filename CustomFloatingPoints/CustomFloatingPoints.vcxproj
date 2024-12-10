@@ -128,6 +128,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CustomFloatingPoints.cpp" />
+    <ClCompile Include="FloatingPoint.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FloatingPoint.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
