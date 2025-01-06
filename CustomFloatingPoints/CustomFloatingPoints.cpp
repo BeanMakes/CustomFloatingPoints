@@ -4,10 +4,111 @@
 #include <iostream>
 #include "FloatingPoint.h"
 
+int convert_to_decimal(bool arr[8]) {
+    int result = 0;
+    int currentExpo = 0;
+    for (int i = 7; i >= 0; i--) {
+        if (arr[i] == true) {
+            result += static_cast<int>(pow(2, currentExpo));
+        }
+        currentExpo += 1;
+    }
+    return result;
+}
+
+FloatingPoint add(FloatingPoint x, FloatingPoint y)
+{
+    FloatingPoint result = FloatingPoint(0);
+    FloatingPoint newTemp = FloatingPoint(0);
+    if (convert_to_decimal(x.expo) > convert_to_decimal(y.expo)) {
+        // right shift y until match 
+        int difference = convert_to_decimal(x.expo) - convert_to_decimal(y.expo);
+        for (int i = 0; i < 8; i++) {
+            newTemp.expo[i] = x.expo[i];
+            result.expo[i] = x.expo[i];
+        }
+        for (int i = 0; i < 21; i++) {
+            int newIndex = i + difference;
+            if (newIndex < 21) {
+                newTemp.mantissa[newIndex] = y.mantissa[i];
+            }
+        }
+
+        bool remainder = false;
+        for (int i = 20; i >= 0; i--) {
+            if (newTemp.mantissa[i] == true && x.mantissa[i] == true) {
+                remainder = true;
+                result.mantissa[i] = false;
+            }
+            else if ((newTemp.mantissa[i] == true && remainder) || x.mantissa[i] == true && remainder) {
+                remainder = true;
+                result.mantissa[i] = false;
+            }
+            else if (newTemp.mantissa[i] == true || x.mantissa[i] == true) {
+                remainder = false;
+                result.mantissa[i] = true;
+            }
+            else if (remainder && newTemp.mantissa[i] == false || remainder && x.mantissa[i] == false) {
+                remainder = false;
+                result.mantissa[i] = true;
+            }
+            else {
+                remainder = false;
+                result.mantissa[i] = false;
+            }
+        }
+    }
+    else if (y.expo > x.expo) {
+        // right shift x until match
+
+        int difference = convert_to_decimal(y.expo) - convert_to_decimal(x.expo);
+        for (int i = 0; i < 8; i++) {
+            newTemp.expo[i] = y.expo[i];
+            result.expo[i] = y.expo[i];
+        }
+        for (int i = 0; i < 21; i++) {
+            int newIndex = i + difference;
+            if (newIndex < 21) {
+                newTemp.mantissa[newIndex] = x.mantissa[i];
+            }
+        }
+        bool remainder = false;
+        for (int i = 20; i >= 0; i--) {
+            if (newTemp.mantissa[i] == true && y.mantissa[i] == true) {
+                remainder = true;
+                result.mantissa[i] = false;
+            }
+            else if ((newTemp.mantissa[i] == true && remainder) || y.mantissa[i] == true && remainder) {
+                remainder = true;
+                result.mantissa[i] = false;
+            }
+            else if (newTemp.mantissa[i] == true || y.mantissa[i] == true) {
+                remainder = false;
+                result.mantissa[i] = true;
+            }
+            else if (remainder && newTemp.mantissa[i] == false || remainder && y.mantissa[i] == false) {
+                remainder = false;
+                result.mantissa[i] = true;
+            }
+            else {
+                remainder = false;
+                result.mantissa[i] = false;
+            }
+        }
+    }
+    else {
+        // start adding
+    }
+    return result;
+}
+
 int main()
 {
-    FloatingPoint point = FloatingPoint(8.5);
+    FloatingPoint pointX = FloatingPoint(8.5);
+    FloatingPoint pointY = FloatingPoint(21.5);
+    FloatingPoint result = add(pointX, pointY);
     std::cout << "Hello World!\n";
+    return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
